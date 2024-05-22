@@ -76,7 +76,7 @@
 				<div class="row">
 					{% for row in rows %}
 						<div class="card needspace" style="width: 18rem;">
-							<img src="{{filename}}" class="card-img-top" alt="...">
+							<img src="{{ url_for('static_dir', path = 'images/'+row.filename) }}" class="card-img-top" alt="...">
 							<div class="card-body">
 			    				<h5 class="card-title">{{row.name}}</h5>
 			    				<p class="card-text">{{row.category}}</p>
