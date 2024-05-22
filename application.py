@@ -110,7 +110,7 @@ def home():
             "name": name,
             "description": description,
             "price_range": price_range,
-            "filename": image_url,
+            "filename": filename,
             "comments": comments,
             "username": session['username']
         }
