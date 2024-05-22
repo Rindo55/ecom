@@ -87,7 +87,8 @@ def index():
 def home():
     if request.method == "POST":
         image = request.files['image']
-        filename = str(uuid.uuid1()) + os.path.splitext(image.filename)[1]
+        filename = str("".join([random.choice(digits) for n in range(10)]))
+        filename = f"{filename}.jpg"
         image.save(os.path.join("static/images", filename))
         pro_id = "".join([random.choice(digits) for n in range(5)])
         with open(os.path.join("static/images", filename), "rb") as file:
@@ -109,7 +110,7 @@ def home():
             "name": name,
             "description": description,
             "price_range": price_range,
-            "filename": image_url,
+            "filename": filename,
             "comments": comments,
             "username": session['username']
         }
