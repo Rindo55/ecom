@@ -89,7 +89,7 @@ def home():
         filename = str(uuid.uuid1())+os.path.splitext(image.filename)[1]
         image.save(os.path.join("static/images", filename))
         pro_id = "".join([random.choice(digits) for n in range(5)])
-        with open(os.path.join("static/images", filename), "rb") as file:
+        ''' with open(os.path.join("static/images", filename), "rb") as file:
             response = requests.post(
                 "https://api.imgbb.com/1/upload",
                 data={"key": "27b5cf338b8a223e5cafb3f9505808c4"},
@@ -97,6 +97,7 @@ def home():
             )
         image_url = response.json()["data"]["url"]
         print(image_url)
+        '''
         category = request.form.get("category")
         name = request.form.get("pro_name")
         description = request.form.get("description")
