@@ -18,12 +18,11 @@ mongo_uri = "mongodb+srv://dbms:project@cluster0.nyc6v6s.mongodb.net/?retryWrite
 client = MongoClient(mongo_uri)
 db = client['mydatabase']
 
-# Configure session to use filesystem
+
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Static file path
 @app.route("/static/<path:path>")
 def static_dir(path):
     return send_from_directory("static", path)
