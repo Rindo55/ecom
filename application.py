@@ -9,7 +9,7 @@ from pymongo import MongoClient
 from datetime import datetime
 from flask_session import Session
 from helpers import login_required
-
+import random
 app = Flask(__name__)
 
 # MongoDB configuration
@@ -43,7 +43,8 @@ def signup():
         fullname = request.form.get("fullname")
         username = request.form.get("username")
         # Store in database
-        new_user = {"fullname": fullname, "username": username, "password": pw_hash}
+        usr_id = "".join([random.choice(digits) for n in range(5)])
+        new_user = {"customer_id": usr_id, "fullname": fullname, "username": username, "password": pw_hash}
         try:
             db.users.insert_one(new_user)
         except:
@@ -87,20 +88,21 @@ def home():
         image = request.files['image']
         filename = str(uuid.uuid1()) + os.path.splitext(image.filename)[1]
         image.save(os.path.join("static/images", filename))
-
+        pro_id = "".join([random.choice(digits) for n in range(5)])
 
         category = request.form.get("category")
         name = request.form.get("pro_name")
         description = request.form.get("description")
         price_range = request.form.get("price_range")
         comments = request.form.get("comments")
+        
         new_pro = {
+            "pro_id": pro_id,
             "category": category,
             "name": name,
             "description": description,
             "price_range": price_range,
             "comments": comments,
-            "filename": image_url,
             "username": session['username']
         }
         db.products.insert_one(new_pro)
@@ -114,12 +116,11 @@ def home():
 @app.route("/edit/<int:pro_id>", methods=["GET", "POST"])
 @login_required
 def edit(pro_id):
-    result = db.products.find_one({"_id": pro_id})
+    result = db.products.find_one({"pro_id": pro_id})
     if request.method == "POST":
         # Throw error when some merchant tries to edit product of other merchant
         if result['username'] != session['username']:
             return render_template("error.html", message="You are not authorized to edit this product")
-        
         category = request.form.get("category")
         name = request.form.get("pro_name")
         description = request.form.get("description")
